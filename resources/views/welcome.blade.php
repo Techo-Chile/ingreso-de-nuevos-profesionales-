@@ -1,98 +1,332 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta charset="utf-8">
+    <title>Formulario</title>
+    <style>
+    /*
+    Common
+*/
 
-        <title>Laravel</title>
+.wizard,
+.tabcontrol
+{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
+.wizard a,
+.tabcontrol a
+{
+    outline: 0;
+}
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+.wizard ul,
+.tabcontrol ul
+{
+    list-style: none !important;
+    padding: 0;
+    margin: 0;
+}
 
-            .full-height {
-                height: 100vh;
-            }
+.wizard ul > li,
+.tabcontrol ul > li
+{
+    display: block;
+    padding: 0;
+}
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+/* Accessibility */
+.wizard > .steps .current-info,
+.tabcontrol > .steps .current-info
+{
+    position: absolute;
+    left: -999em;
+}
 
-            .position-ref {
-                position: relative;
-            }
+.wizard > .content > .title,
+.tabcontrol > .content > .title
+{
+    position: absolute;
+    left: -999em;
+}
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+/*
+    Wizard
+*/
 
-            .content {
-                text-align: center;
-            }
+.wizard > .steps
+{
+    position: relative;
+    display: block;
+    width: 100%;
+}
 
-            .title {
-                font-size: 84px;
-            }
+.wizard.vertical > .steps
+{
+    display: inline;
+    float: left;
+    width: 30%;
+}
 
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
+.wizard > .steps .number
+{
+    font-size: 1.429em;
+}
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+.wizard > .steps > ul > li
+{
+    width: 25%;
+}
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+.wizard > .steps > ul > li,
+.wizard > .actions > ul > li
+{
+    float: left;
+}
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+.wizard.vertical > .steps > ul > li
+{
+    float: none;
+    width: 100%;
+}
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+.wizard > .steps a,
+.wizard > .steps a:hover,
+.wizard > .steps a:active
+{
+    display: block;
+    width: auto;
+    margin: 0 0.5em 0.5em;
+    padding: 1em 1em;
+    text-decoration: none;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.wizard > .steps .disabled a,
+.wizard > .steps .disabled a:hover,
+.wizard > .steps .disabled a:active
+{
+    background: #eee;
+    color: #aaa;
+    cursor: default;
+}
+
+.wizard > .steps .current a,
+.wizard > .steps .current a:hover,
+.wizard > .steps .current a:active
+{
+    background: #2184be;
+    color: #fff;
+    cursor: default;
+}
+
+.wizard > .steps .done a,
+.wizard > .steps .done a:hover,
+.wizard > .steps .done a:active
+{
+    background: #9dc8e2;
+    color: #fff;
+}
+
+.wizard > .steps .error a,
+.wizard > .steps .error a:hover,
+.wizard > .steps .error a:active
+{
+    background: #ff3111;
+    color: #fff;
+}
+
+.wizard > .actions
+{
+    position: relative;
+    display: block;
+    text-align: right;
+    width: 100%;
+}
+
+.wizard.vertical > .actions
+{
+    display: inline;
+    float: right;
+    margin: 0 2.5%;
+    width: 95%;
+}
+
+.wizard > .actions > ul
+{
+    display: inline-block;
+    text-align: right;
+}
+
+.wizard > .actions > ul > li
+{
+    margin: 0 0.5em;
+}
+
+.wizard.vertical > .actions > ul > li
+{
+    margin: 0 0 0 1em;
+}
+
+.wizard > .actions a,
+.wizard > .actions a:hover,
+.wizard > .actions a:active
+{
+    background: #2184be;
+    color: #fff;
+    display: block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.wizard > .actions .disabled a,
+.wizard > .actions .disabled a:hover,
+.wizard > .actions .disabled a:active
+{
+    background: #eee;
+    color: #aaa;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <div class="card-panel hoverable">
+
+    <div class="row">
+  <div class="col s12">
+    <form id="example-form">
+      <div>
+      <h3>Datos Personales</h3>
+      <section>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="title" type="text" class="datepicker">
+            <label for="title">Fecha Ingreso</label>
+          </div>
         </div>
-    </body>
+        <div class="row">
+          <div class="input-field col s3">
+            <input type="text" id="Nombre" name="" value="">
+            <label for="Nombre">Nombre</label>
+          </div>
+          <div class="input-field col s3">
+            <input type="text" id="Apellido" name="" value="">
+            <label for="Apellido">Apellido</label>
+          </div>
+          <div class="input-field col s3">
+            <input type="text" id="Country" name="" value="">
+            <label for="County">Pais</label>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s3">
+              <input type="text" id="FN" class="datepicker1">
+              <label for="FN">Fecha Nacimiento</label>
+          </div>
+          <div class="input-field col s3">
+            <input type="text" id="Rut" name="" value="">
+            <label for="Rut">Rut</label>
+          </div>
+          <div class="input-field col s3">
+            <input type="text" id="dp" name="" value="">
+            <label for="dp">Direccion Particular</label>
+
+          </div>
+        </div>
+      </section>
+      <h3>Datos Cargos</h3>
+      <section>
+        <div class="row">
+
+
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
+            <label for="organizer">Organizer</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
+            <label for="website">Website</label>
+          </div>
+          <div class="input-field col s6">
+            <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
+            <label for="email">Contact email</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id="description" class="materialize-textarea" length="140"></textarea>
+            <label for="description">Describe the event in a tweet!</label>
+          </div>
+        </div>
+      </section>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.rawgit.com/rstaib/jquery-steps/master/build/jquery.steps.min.js" charset="utf-8"></script>
+
+<script>
+var form = $("#example-form");
+form.children("div").steps({
+    headerTag: "h3",
+    bodyTag: "section",
+    transitionEffect: "slideLeft",
+
+    /* Labels */
+    labels: {
+        cancel: "Cancel?",
+        current: "current step:",
+        pagination: "Pagination",
+        finish: "Finish!!",
+        next: "Next >",
+        previous: "< Previous",
+        loading: "Loading ..."
+    },
+
+
+    onStepChanging: function (event, currentIndex, newIndex)
+    {
+
+        return true;
+    },
+    onFinishing: function (event, currentIndex)
+    {
+
+        return true;
+    },
+    onFinished: function (event, currentIndex)
+    {
+        alert("Submitted!");
+    }
+});
+
+
+$('.datepicker1').datepicker();
+
+$('.datepicker').datepicker({defaultDate:new Date(),setDefaultDate:true,minDate:new Date()});
+
+
+</script>
+
+  </body>
 </html>
