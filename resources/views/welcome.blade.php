@@ -209,12 +209,7 @@
       <div>
       <h3>Datos Personales</h3>
       <section>
-        <div class="row">
-          <div class="input-field col s12">
-            <input id="title" type="text" class="datepicker">
-            <label for="title">Fecha Ingreso</label>
-          </div>
-        </div>
+
         <div class="row">
           <div class="input-field col s3">
             <input type="text" id="Nombre" name="" value="">
@@ -222,35 +217,35 @@
           </div>
           <div class="input-field col s3">
             <input type="text" id="Apellido" name="" value="">
-            <label for="Apellido">Apellido</label>
+            <label for="Apellido">Apellido Materno</label>
           </div>
           <div class="input-field col s3">
             <input type="text" id="Country" name="" value="">
-            <label for="County">Pais</label>
+            <label for="County">Apellido Paterno</label>
 
           </div>
         </div>
         <div class="row">
           <div class="input-field col s3">
-              <input type="text" id="FN" class="datepicker1">
-              <label for="FN">Fecha Nacimiento</label>
+              <input type="text" id="FN" name="" class="datepicker1">
+              <label for="FN">Email Personal</label>
           </div>
+          <!--
           <div class="input-field col s3">
             <input type="text" id="Rut" name="" value="">
             <label for="Rut">Rut</label>
           </div>
-          <div class="input-field col s3">
-            <input type="text" id="dp" name="" value="">
-            <label for="dp">Direccion Particular</label>
+        -->
 
-          </div>
         </div>
       </section>
       <h3>Datos Cargos</h3>
       <section>
         <div class="row">
-
-
+          <div class="input-field col s12">
+            <input id="title" type="text" class="datepicker">
+            <label for="title">Fecha Ingreso</label>
+          </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
@@ -284,7 +279,7 @@
 <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="https://cdn.rawgit.com/rstaib/jquery-steps/master/build/jquery.steps.min.js" charset="utf-8"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.js"></script>
 <script>
 var form = $("#example-form");
 form.children("div").steps({
@@ -323,7 +318,18 @@ form.children("div").steps({
 
 $('.datepicker1').datepicker();
 
-$('.datepicker').datepicker({defaultDate:new Date(),setDefaultDate:true,minDate:new Date()});
+$('.datepicker').datepicker({
+  autoClose:true,
+  defaultDate:new Date(),
+  setDefaultDate:true,
+  minDate:new Date(),
+  disableDayFn: function (date) {
+      var enabled_dates = ["2016-08-20", "2016-08-22", "2016-08-30"];    // dates I want to enabled.
+
+      if ($.inArray(moment(date).format("YYYY-MM-DD"), enabled_dates) === -1) {
+          return date;
+      }
+  }});
 
 
 </script>
