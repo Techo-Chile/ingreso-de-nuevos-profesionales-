@@ -22,11 +22,11 @@ class CreateIngresoDirectorsTable extends Migration
             $table->string('rut');
             $table->string('correo_p');
             $table->string('hire_date');
-            $table->string('area');
-            $table->string('cargo');
+            $table->string('area')->nullable();
+            $table->string('cargo')->nullable();
             $table->string('remu');
             $table->string('correo_techo');
-            $table->integer('ofi_id');
+            $table->integer('ofi_id')->nullable();
             $table->string('entro_costo');
             $table->string('jefe');
             $table->string('correojefe');

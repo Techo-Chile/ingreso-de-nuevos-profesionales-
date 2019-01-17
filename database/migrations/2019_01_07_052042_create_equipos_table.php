@@ -16,6 +16,8 @@ class CreateEquiposTable extends Migration
         Schema::create('equipos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('marca');
+
 
             $table->timestamps();
         });

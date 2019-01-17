@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AvisoIngreso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -25,5 +27,11 @@ class HomeController extends Controller
 
 
         return view('welcome');
+    }
+    public function store(Request $request)
+    {
+        Mail::to('oscarent2@gmail.com')->send(new AvisoIngreso());
+        return \GuzzleHttp\json_encode($request->all());
+
     }
 }

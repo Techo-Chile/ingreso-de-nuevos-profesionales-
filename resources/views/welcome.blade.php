@@ -205,7 +205,8 @@
 
     <div class="row">
   <div class="col s12">
-    <form id="example-form">
+    <form id="example-form" action="{{route('savef1')}}" method="post" >
+        @csrf
       <div>
       <h3>Datos Personales</h3>
       <section>
@@ -320,12 +321,12 @@
 
               <div class="row">
                   <div class="input-field col s6">
-                      <input placeholder="Nombre jefe partiacal" id="jpartiacal" type="text" name="jpartiacal" class="">
-                      <label for="jpartiacal">Nombre jefe partiacal (Opcional)</label>
+                      <input placeholder="Software Adicional" id="sw" type="text" name="sw" class="">
+                      <label for="sw">Software Adicional (Opcional)</label>
                   </div>
                   <div class="input-field col s6">
-                      <input placeholder="Mail jefe partiacal" id="jpartiacalmail" type="email" name="jpartiacalmail" class="">
-                      <label for="jpartiacalmail">Mail jefe partiacal</label>
+                      <input placeholder="Lugar fisico donde se instalara" id="lfisico" type="text" name="jpartiacalmail" class="">
+                      <label for="lfisico">Lugar fisico donde se instalara</label>
                   </div>
               </div>
 
@@ -410,7 +411,8 @@ form.children("div").steps({
         return form.valid();    },
     onFinished: function (event, currentIndex)
     {
-        alert("Submitted!");
+        $("#example-form").submit();
+
     }
 });
 
