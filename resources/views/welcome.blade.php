@@ -269,8 +269,8 @@
             <label for="website">Mail techo</label>
           </div>
           <div class="input-field col s6">
-            <input placeholder="Remuneración" id="remu" type="text" name="remu" class="validate">
-            <label for="email">Contact email</label>
+            <input placeholder="Remuneración" id="remu" type="number" name="remu" class="validate">
+            <label for="email">Remuneración</label>
           </div>
         </div>
           <div class="row">
@@ -279,18 +279,57 @@
 
               </div>
               <div class="input-field col s6">
-                  <input placeholder="Remuneración" id="remu" type="text" name="remu" class="validate">
-                  <label for="email">Contact email</label>
+                  <input placeholder="centro de costos" id="cc" type="text" name="cc" class="validate">
+                  <label for="cc">Centro de costo</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s6">
+                  <input placeholder="Nombre jefe directo" id="jdirect" type="text" name="jdirect" class="validate">
+                  <label for="jdirect">Nombre jefe directo</label>
+              </div>
+              <div class="input-field col s6">
+                  <input placeholder="Mail jefe directo" id="mdirect" type="email" name="mdirect" class="validate">
+                  <label for="mdirect">Mail jefe directo</label>
               </div>
           </div>
 
-        <div class="row">
-          <div class="input-field col s12">
-            <textarea id="description" class="materialize-textarea" length="140"></textarea>
-            <label for="description">Describe the event in a tweet!</label>
+          <div class="row">
+              <div class="input-field col s6">
+                  <input placeholder="Nombre jefe partiacal" id="jpartiacal" type="text" name="jpartiacal" class="">
+                  <label for="jpartiacal">Nombre jefe partiacal (Opcional)</label>
+              </div>
+              <div class="input-field col s6">
+                  <input placeholder="Mail jefe partiacal" id="jpartiacalmail" type="email" name="jpartiacalmail" class="">
+                  <label for="jpartiacalmail">Mail jefe partiacal</label>
+              </div>
           </div>
-        </div>
       </section>
+          <h3>herramientas a utilizar</h3>
+          <section>
+              <div class="row">
+                  <div class="input-field col s6">
+                      Falta equipo lista x cargo
+
+                  </div>
+                  <div class="input-field col s6">
+                      <input id="fe" type="text" name="fe" class="datepicker">
+                      <label for="fe">Fecha Entrega</label>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="input-field col s6">
+                      <input placeholder="Nombre jefe partiacal" id="jpartiacal" type="text" name="jpartiacal" class="">
+                      <label for="jpartiacal">Nombre jefe partiacal (Opcional)</label>
+                  </div>
+                  <div class="input-field col s6">
+                      <input placeholder="Mail jefe partiacal" id="jpartiacalmail" type="email" name="jpartiacalmail" class="">
+                      <label for="jpartiacalmail">Mail jefe partiacal</label>
+                  </div>
+              </div>
+
+          </section>
       </div>
     </form>
   </div>
