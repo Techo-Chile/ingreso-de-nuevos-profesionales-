@@ -212,22 +212,27 @@
 
         <div class="row">
           <div class="input-field col s3">
-            <input type="text" id="Nombre" name="" value="">
+            <input type="text" id="Nombre" class="required" name="name" value="" >
             <label for="Nombre">Nombre</label>
           </div>
           <div class="input-field col s3">
-            <input type="text" id="Apellido" name="" value="">
-            <label for="Apellido">Apellido Materno</label>
+            <input type="text" id="Apellido_p" class="required" name="apep" value="" >
+            <label for="Apellido_p">Apellido Paterno</label>
           </div>
           <div class="input-field col s3">
-            <input type="text" id="Country" name="" value="">
-            <label for="County">Apellido Paterno</label>
+            <input type="text" id="apellido_m" class="required" name="apem" value="" >
+            <label for="apellido_m">Apellido Materno</label>
 
           </div>
         </div>
         <div class="row">
+            <div class="input-field col s3">
+                <input type="text" id="rut" class="required" name="rut" value="" >
+                <label for="rut">Rut</label>
+
+            </div>
           <div class="input-field col s3">
-              <input type="text" id="FN" name="" class="datepicker1">
+              <input type="email" id="FN" name="emailp" class="required">
               <label for="FN">Email Personal</label>
           </div>
           <!--
@@ -243,26 +248,41 @@
       <section>
         <div class="row">
           <div class="input-field col s12">
-            <input id="title" type="text" class="datepicker">
+            <input id="title" type="text" name="fi" class="datepicker">
             <label for="title">Fecha Ingreso</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
-            <input placeholder="Who is organizing the event?" id="organizer" type="text" class="validate">
-            <label for="organizer">Organizer</label>
+          <div class="input-field col s3">
+              Falta area
+
           </div>
+            <div class="input-field col s3">
+
+                    Falta Cargo
+
+            </div>
         </div>
         <div class="row">
           <div class="input-field col s6">
-            <input placeholder="http://www.mywebsite.com" id="website" type="text" class="validate">
-            <label for="website">Website</label>
+            <input placeholder="Correo Techo" id="techomail" name="techomail" type="text" class="validate">
+            <label for="website">Mail techo</label>
           </div>
           <div class="input-field col s6">
-            <input placeholder="contact@myweb.com" id="email" type="text" class="validate">
+            <input placeholder="Remuneración" id="remu" type="text" name="remu" class="validate">
             <label for="email">Contact email</label>
           </div>
         </div>
+          <div class="row">
+              <div class="input-field col s6">
+                  Lista oficina Techo
+
+              </div>
+              <div class="input-field col s6">
+                  <input placeholder="Remuneración" id="remu" type="text" name="remu" class="validate">
+                  <label for="email">Contact email</label>
+              </div>
+          </div>
 
         <div class="row">
           <div class="input-field col s12">
@@ -278,10 +298,34 @@
 </div>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
 <script src="https://cdn.rawgit.com/rstaib/jquery-steps/master/build/jquery.steps.min.js" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.js"></script>
+    <script src="https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js"></script>
+    <script src="https://rawgithub.com/gf3/moment-range/v0.1.7/lib/moment-range.js"></script>
 <script>
+    var Fn = {
+        // Valida el rut con su cadena completa "XXXXXXXX-X"
+        validaRut : function (rutCompleto) {
+            if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+                return false;
+            var tmp 	= rutCompleto.split('-');
+            var digv	= tmp[1];
+            var rut 	= tmp[0];
+            if ( digv == 'K' ) digv = 'k' ;
+            return (Fn.dv(rut) == digv );
+        },
+        dv : function(T){
+            var M=0,S=1;
+            for(;T;T=Math.floor(T/10))
+                S=(S+T%10*(9-M++%6))%11;
+            return S?S-1:'k';
+        }
+    }
 var form = $("#example-form");
+form.validate({
+    errorPlacement: function errorPlacement(error, element) { element.before(error); },
+
+});
 form.children("div").steps({
     headerTag: "h3",
     bodyTag: "section",
@@ -299,16 +343,32 @@ form.children("div").steps({
     },
 
 
+
     onStepChanging: function (event, currentIndex, newIndex)
     {
+        console.log($('#Nombre').val().length > 3);
+        console.log($('#Apellido_p').val().length > 3);
+        console.log($('#apellido_m').val().length > 3);
+        console.log(validateEmail($('#FN').val()));
+        console.log(Fn.validaRut($('#rut').val()));
+        if($('#Nombre').val().length > 3 && $('#Apellido_p').val().length > 3 && $('#apellido_m').val().length >3 && validateEmail($('#FN').val()) && Fn.validaRut($('#rut').val()))
+        {
+            form.validate().settings.ignore = ":disabled,:hidden";
+            generateemail($('#Nombre').val(),$('#Apellido_p').val(),$('#Apellido_m').val())
+            return form.valid();
+        }
+        else{
+            return false;
 
-        return true;
+        }
+
+
     },
     onFinishing: function (event, currentIndex)
     {
 
-        return true;
-    },
+        form.validate().settings.ignore = ":disabled";
+        return form.valid();    },
     onFinished: function (event, currentIndex)
     {
         alert("Submitted!");
@@ -319,17 +379,92 @@ form.children("div").steps({
 $('.datepicker1').datepicker();
 
 $('.datepicker').datepicker({
-  autoClose:true,
-  defaultDate:new Date(),
-  setDefaultDate:true,
-  minDate:new Date(),
-  disableDayFn: function (date) {
-      var enabled_dates = ["2016-08-20", "2016-08-22", "2016-08-30"];    // dates I want to enabled.
+    onRender: function() {
+        $('button.month-prev').on('click', function() {
+            alert('click next');
+        });
+        $('div.picker__nav--prev').on('click',  function() {
+            alert('click prev');
+        });
+    },
 
-      if ($.inArray(moment(date).format("YYYY-MM-DD"), enabled_dates) === -1) {
-          return date;
-      }
-  }});
+  autoClose:true,
+    defaultDate:new Date(),
+    labelMonthNext: 'Next Month',
+    labelMonthPrev: 'Last Month',
+//The title label to use for the dropdown selectors
+    labelMonthSelect: 'Select Month',
+    labelYearSelect: 'Select Year',
+  setDefaultDate:true,
+    disableWeekends:false,
+    disableDayFn: function(theDate) {
+
+        var allowbegind = moment().format("YYYY-"+getdate(theDate.getMonth())+"-01")
+
+        var allowend = moment().format("YYYY-"+getdate(theDate.getMonth())+"-24")
+        var ranged = moment().range(allowbegind, allowend);
+         if (ranged.contains(theDate)){return false}else{return true}
+         ranged.destroyed();
+
+
+
+    } });
+function generateemail(a,b,c) {
+    $('#techomail').val(a+"."+b+"@techo.org")
+
+}
+function getdate(inn) {
+     let out='';
+    switch (inn)
+    {
+        case 0:
+            out ='01';
+            break;
+        case 1:
+            out ='01';
+            break;
+        case 2:
+            out ='02';
+            break;
+        case 3:
+            out ='03';
+            break;
+        case 4:
+            out ='04';
+            break;
+        case 5:
+            out ='05';
+            break;
+        case 6:
+            out ='06';
+            break;
+        case 7:
+            out ='07';
+            break;
+        case 8:
+            out ='08';
+            break;
+        case 9:
+            out ='09';
+            break;
+        case 10:
+            out ='10';
+            break;
+        case 11:
+            out ='11';
+            break;
+        case 12:
+            out ='12';
+            break;
+
+    }
+    return out;
+
+}
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
 
 
 </script>
