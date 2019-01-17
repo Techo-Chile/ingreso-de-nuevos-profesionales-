@@ -14,8 +14,11 @@ class CreateOperacionsTable extends Migration
     public function up()
     {
         Schema::create('operacions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
             $table->timestamps();
+            $table->integer('estado_id');
+
+            $table->primary('id');
         });
     }
 

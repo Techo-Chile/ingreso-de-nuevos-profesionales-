@@ -4,9 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Operacion extends Model
+class HerramientaPersona extends Model
 {
-    public $incrementing = false;
-
     //
 }
