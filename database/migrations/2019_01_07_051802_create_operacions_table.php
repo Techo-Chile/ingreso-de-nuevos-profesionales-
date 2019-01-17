@@ -17,7 +17,6 @@ class CreateOperacionsTable extends Migration
             $table->uuid('id');
             $table->timestamps();
             $table->integer('estado_id');
-
             $table->primary('id');
         });
     }

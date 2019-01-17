@@ -14,5 +14,5 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/{token?}', 'HomeController@index')->name('home');
 Route::post('/', 'HomeController@store')->name('savef1');

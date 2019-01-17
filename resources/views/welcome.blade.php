@@ -207,6 +207,7 @@
   <div class="col s12">
     <form id="example-form" action="{{route('savef1')}}" method="post" >
         @csrf
+        <input type="hidden" value="{{$operacionid}}" name="operacionid">
       <div>
       <h3>Datos Personales</h3>
       <section>
@@ -325,7 +326,7 @@
                       <label for="sw">Software Adicional (Opcional)</label>
                   </div>
                   <div class="input-field col s6">
-                      <input placeholder="Lugar fisico donde se instalara" id="lfisico" type="text" name="jpartiacalmail" class="">
+                      <input placeholder="Lugar fisico donde se instalara" id="lfisico" type="text" name="lfisicotrabajo" class="">
                       <label for="lfisico">Lugar fisico donde se instalara</label>
                   </div>
               </div>
