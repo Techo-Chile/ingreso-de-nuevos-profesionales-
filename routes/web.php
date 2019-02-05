@@ -15,6 +15,6 @@
 Auth::routes();
 
 Route::get('/{token?}', 'HomeController@index')->name('home');
-Route::post('/', 'HomeController@store')->name('savef1');
+Route::post('/formulario1', 'HomeController@storeformulario1')->name('savef1');
 Route::post('/subarea', 'HomeController@subarea')->name('getsubarea');
-Route::post('/', 'HomeController@store2')->name('savef2');
+Route::post('/formulario2', 'HomeController@store2')->name('savef2');

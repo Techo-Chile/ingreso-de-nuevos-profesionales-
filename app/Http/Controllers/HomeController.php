@@ -80,7 +80,7 @@ class HomeController extends Controller
 
 
     }
-    public function store(Request $request)
+    public function storeformulario1(Request $request)
     {
         $f1 = new IngresoDirector();
         $f1->uuid_operacion = $request->get('operacionid');
