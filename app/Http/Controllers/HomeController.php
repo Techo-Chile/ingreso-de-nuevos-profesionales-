@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
+use App\Cargo;
+use App\Equipo;
 use App\IngresoDirector;
 use App\Mail\AvisoIngreso;
+use App\Oficina;
 use App\Operacion;
+use App\SubArea;
 use function GuzzleHttp\Promise\all;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Webpatser\Uuid\Uuid;
+use GuzzleHttp\Client;
 
 class HomeController extends Controller
 {
@@ -28,6 +34,9 @@ class HomeController extends Controller
      */
     public function index($token = null)
     {
+        $cargo = Cargo::all();
+        $oficinas = Oficina::all();
+        $area = Area::all();
         if ($token)
         {
             switch ($this->detectwhoisMyOperacionandshowView($token))
@@ -36,13 +45,18 @@ class HomeController extends Controller
                     return 'ese trabajo no existe';
                     break;
                 case 1:
-                    return view('welcome',['operacionid'=> $token]);
+
+
+                    return view('welcome')->with(array('operacionid'=> $token, 'cargos' => $cargo, 'oficinas' => $oficinas, 'areas' => $area));
                     break;
                 case 2:
                     return $this->sendemailprivado($token);
                     break;
                 case 3:
-                    return view('f2',['operacionid'=> $token]);
+                    $client = new Client();
+                    $res = $client->get('https://restcountries.eu/rest/v2/all?fields=name');
+                    //return var_dump($res->getBody()->getContents());
+                    return view('f2',['operacionid'=> $token,'paises' => json_decode($res->getBody()->getContents())]);
                     break;
                 case 4:
                     return $this->createtecho($token);
@@ -58,7 +72,7 @@ class HomeController extends Controller
             $ope->id = Uuid::generate()->string;
             $ope->estado_id = 1;
             $ope->save();
-            return view('welcome',['operacionid'=> $ope->id]);
+            return view('welcome')->with(array('operacionid'=> $ope->id, 'cargos' => $cargo, 'oficinas' => $oficinas, 'areas' => $area));
 
 
 
@@ -89,6 +103,15 @@ class HomeController extends Controller
 
 
     }
+    public function subarea(Request $request)
+    {
+        if ($request->get('key') != 1)
+        {
+        $sub = SubArea::where('area_father','=',$request->get('key'))->get();
+        return json_encode($sub);
+        }
+        return json_encode('nothing');
+    }
     public function detectwhoisMyOperacionandshowView($ability)
     {
         $user = Operacion::where('id', '=', $ability)->first();
@@ -113,5 +136,8 @@ class HomeController extends Controller
         $operacion->estado_id =$nextstep;
         $operacion->save();
 
+    }
+    public function store2(Request $request)
+    {
     }
 }

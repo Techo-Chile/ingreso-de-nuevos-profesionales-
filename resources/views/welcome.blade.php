@@ -256,12 +256,28 @@
         </div>
         <div class="row">
           <div class="input-field col s3">
-              Falta area
+
+              <select name="area" onchange="getsubarea(this)">
+                  <option value="" disabled selected>seleccione una area</option>
+                  @foreach ($areas as $ofi)
+                      <option value="{{$ofi->id}}">{{$ofi->name}}</option>
+                  @endforeach
+              </select>
+
+              <div id="subarea"></div>
+
 
           </div>
+        </div>
+        <div class="row">
             <div class="input-field col s3">
 
-                    Falta Cargo
+                <select name="cargo">
+                    <option value="" disabled selected>seleccione un cargo</option>
+                    @foreach ($cargos as $ofi)
+                        <option value="{{$ofi->id}}">{{$ofi->name}}</option>
+                    @endforeach
+                </select>
 
             </div>
         </div>
@@ -277,7 +293,13 @@
         </div>
           <div class="row">
               <div class="input-field col s6">
-                  Lista oficina Techo
+                  <select name="ofi">
+                      <option value="" disabled selected>seleccione una oficina</option>
+                      @foreach ($oficinas as $ofi)
+                          <option value="{{$ofi->id}}">{{$ofi->name}}</option>
+                      @endforeach
+
+                  </select>
 
               </div>
               <div class="input-field col s6">
@@ -416,7 +438,9 @@ form.children("div").steps({
 
     }
 });
-
+    $(document).ready(function(){
+        $('select').formSelect();
+    });
 
 $('.datepicker1').datepicker();
 
@@ -508,8 +532,53 @@ function getdate(inn) {
         return re.test(String(email).toLowerCase());
     }
 
+    function getsubarea(e) {
+        let id = e.value;
+        fetch('/subarea', {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRF-Token": $('input[name="_token"]').val()
+            },
+            method: "post",
+            credentials: "same-origin",
+            body: JSON.stringify({
+                key: id
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (responseJson != 'nothing')
+                {
+                    var sub = $('#subarea')
+                    sub.empty();
+                    drawselect(responseJson)
+                }else{
+                var sub = $('#subarea')
+                sub.empty();}
+            })
+
+            .catch(function (error) {
+                console.log(error)
+            });
+    };
+function drawselect(json) {
+    //console.log(json)
+    $("#subarea").append('<spam>Sub area </spam><br>')
+    var sub = $('<select class="browser-default" name="subarea">').appendTo('#subarea');
+    json.forEach((e)=>{
+        sub.append($("<option>").attr('value',e.id).text(e.name));
+    })
+
+}
+
 
 </script>
+
+
+
+
 
   </body>
 </html>
